@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Фигня_какая_то
+namespace DrawFigureOne
 {
     public abstract class Figure
     {

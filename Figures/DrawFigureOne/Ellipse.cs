@@ -6,27 +6,23 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Фигня_какая_то
+namespace DrawFigureOne
 {
-    class Segment : Figure
+    class Ellipse : Figure
     {
-        public Point endLine { get; set; }
+        public Point rightPointEllipse { get; set; }
 
         //construct
-        public Segment( Point X, Point Y) : base (X)
+        public Ellipse(Point X, Point Y) : base(X)
         {
-            this.endLine = Y;
+            this.rightPointEllipse = Y;
         }
         public override void Display(PaintEventArgs e)
         {
             Graphics gr = e.Graphics;
             Pen p = new Pen(Color.DodgerBlue, 2);
-            PointF pointOne = new PointF(getX(), getY());
-            PointF pointTwo = new PointF(endLine.valueX, endLine.valueY);
-            gr.DrawLine(p, pointOne, pointTwo);
+            gr.DrawEllipse(p, (int)getX(), (int)getY(), (int)rightPointEllipse.valueX, (int)rightPointEllipse.valueY);
             gr.Dispose();
         }
-
     }
-
 }

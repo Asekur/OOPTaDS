@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Фигня_какая_то
+namespace DrawFigureOne
 {
     class FigureList
     {

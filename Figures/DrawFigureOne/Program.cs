@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Фигня_какая_то
+namespace DrawFigureOne
 {
     static class Program
     {

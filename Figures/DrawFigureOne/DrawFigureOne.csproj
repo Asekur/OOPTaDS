@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{880538F7-C4E3-443D-8A38-048302FA83A6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Фигня_какая_то</RootNamespace>
-    <AssemblyName>Фигня какая то</AssemblyName>
+    <RootNamespace>DrawFigureOne</RootNamespace>
+    <AssemblyName>DrawFigureOne</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

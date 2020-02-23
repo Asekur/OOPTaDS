@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Фигня_какая_то
+namespace DrawFigureOne
 {
     class Rectangle : Figure
     {

@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-namespace Фигня_какая_то
+namespace DrawFigureOne
 {
     partial class Form1
     {
