@@ -7,84 +7,218 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace DrawFigureOne
 {
     public partial class Form1 : Form
     {
         FigureList list = new FigureList();
-        int counter = -1;
+        Color penColor = Color.FromName("Black");
+        string path = Directory.GetCurrentDirectory();
+        Figure checkFig = null;
 
-        public static List<Point> points = new List<Point>();
-        public static List<Point> poi = new List<Point>();
-        public void InitializeList ()
-        {
-            Point firstPoint = new Point(100, 150);
-            Point secondPoint = new Point(122, 70);
-            Point thirdPoint = new Point(108, 87);
-            Point fourthPoint = new Point(76, 67);
-            Point fifthPoint = new Point(95, 124);
-            Point sixthPoint = new Point(230, 300);
-            Point seventhPoint = new Point(286, 180);
+        //for translating figure
+        private int xCursorStart = 0;
+        private int yCursorStart = 0;
+        public Bitmap bmp;
 
-            points.Add(secondPoint);
-            points.Add(thirdPoint);
-            points.Add(firstPoint);
-            points.Add(sixthPoint);
+        public static Point middleStart, middleEnd;
 
-            poi.Add(seventhPoint);
-            poi.Add(fifthPoint);
-
-            Ellipse elOne = new Ellipse(firstPoint, fourthPoint);
-            Rectangle recOne = new Rectangle(fourthPoint, fifthPoint);
-            Segment segOne = new Segment(secondPoint, fifthPoint);
-            Rectangle recTwo = new Rectangle(thirdPoint, secondPoint);
-            Polygon polOne = new Polygon(fifthPoint, points);
-            Ellipse elTwo = new Ellipse(seventhPoint, fourthPoint);
-            Polygon polTwo = new Polygon(secondPoint, poi);
-            Segment segTwo = new Segment(sixthPoint, seventhPoint);
-            Rectangle recThree = new Rectangle(sixthPoint, thirdPoint);
-
-            //add to list
-            list.Add(elOne);
-            list.Add(recOne);
-            list.Add(segOne);
-            list.Add(recTwo);
-            list.Add(polOne);
-            list.Add(elTwo);
-            list.Add(polTwo);
-            list.Add(segTwo);
-            list.Add(recThree);
-        }
+        //points for initial polygon
+        private static List<Point> points;
+        private static Point onePoint, twoPoint, threePoint, fourPoint, fivePoint, sixPoint;
 
         public Form1()
         {
             InitializeComponent();
-            InitializeList();
+            bmp = new Bitmap(HolstPanel.Width, HolstPanel.Height);
+            path = path.Substring(0, path.Length - 10);
         }
 
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            //draw figure
-            HolstPanel.Refresh();
-        }
 
         private void HolstPanel_Paint(object sender, PaintEventArgs e)
         {
-            Figure fig;
-            if ((counter != -1) && (counter != list.getSize))
+            if (!colorDialog.FullOpen)
             {
-                fig = list.getFigure(counter);
-                fig.Display(e);
+                Figure fig;
+                for (int i = 0; i < list.getSize; i++)
+                {
+                    fig = list.getFigure(i);
+                    DisplayBMP(bmp, fig);
+                }
+                ReturnBMP(bmp, list);
+            }
+        }
+
+        private void ChangePenColor_Click(object sender, EventArgs e)
+        {
+            colorDialog.FullOpen = true;
+            colorDialog.Color = penColor;
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+               penColor = colorDialog.Color;
+            colorDialog.FullOpen = false;
+        }
+
+        private void HolstPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (checkFig == null)
+            {
+                //change view of cursor
+                if (list.CheckCursor(e.Location) != null)
+                {
+                    HolstPanel.Cursor = System.Windows.Forms.Cursors.SizeAll;
+                }
+                else
+                {
+                    HolstPanel.Cursor = System.Windows.Forms.Cursors.Default;
+                }
             }
             else
-            if (counter == list.getSize)
             {
-                counter = 0;
-                fig = list.getFigure(counter);
-                fig.Display(e);
+                //transform figure
+                checkFig.RewriteFigure(e.X - xCursorStart, e.Y - yCursorStart);
+                xCursorStart = e.X;
+                yCursorStart = e.Y;
             }
-            counter++;
         }
+
+        private void HolstPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (HolstPanel.Cursor == System.Windows.Forms.Cursors.SizeAll)
+            {
+                checkFig = list.CheckCursor(e.Location);
+                xCursorStart = e.X;
+                yCursorStart = e.Y;
+            }
+        }
+
+        private void HolstPanel_MouseUp(object sender, MouseEventArgs e)
+        {
+            checkFig = null;
+        }
+
+        private void DisplayBMP(Bitmap bmp, Figure fig)
+        {
+            Graphics graph = Graphics.FromImage(bmp);
+            fig.Display(graph);
+            HolstPanel.Image = bmp;
+            graph.Dispose();
+        }
+
+        private void ReturnBMP (Bitmap bmp, FigureList list)
+        {
+            Graphics graph = Graphics.FromImage(bmp);
+            graph.Clear(HolstPanel.BackColor);
+            list.Display(graph);
+            HolstPanel.Image = bmp;
+        }
+
+        private void ButtonSegment_MouseUp(object sender, MouseEventArgs e)
+        {
+            //change background
+            if (e.Button == MouseButtons.Left)
+            {
+                buttonSegment.Image = Image.FromFile(path + "\\assets\\segmentActive.png");
+                buttonRectangle.Image = Image.FromFile(path + "\\assets\\rectangle.png");
+                buttonEllipse.Image = Image.FromFile(path + "\\assets\\ellipse.png");
+                buttonPolygon.Image = Image.FromFile(path + "\\assets\\polygon.png");
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                buttonSegment.Image = Image.FromFile(path + "\\assets\\segment.png");
+            }
+
+            //add base figure
+            middleStart = new Point(HolstPanel.Width / 2 - 30, HolstPanel.Height / 2 - 30);
+            middleEnd = new Point(HolstPanel.Width / 2 + 30, HolstPanel.Height / 2 + 30);
+            Segment segment = new Segment(middleStart, middleEnd, penColor);
+            list.Add(segment);
+            HolstPanel.Refresh();
+        }
+
+        private void ButtonRectangle_MouseUp(object sender, MouseEventArgs e)
+        {
+            //change background
+            if (e.Button == MouseButtons.Left)
+            {
+                buttonSegment.Image = Image.FromFile(path + "\\assets\\segment.png");
+                buttonRectangle.Image = Image.FromFile(path + "\\assets\\rectangleActive.png");
+                buttonEllipse.Image = Image.FromFile(path + "\\assets\\ellipse.png");
+                buttonPolygon.Image = Image.FromFile(path + "\\assets\\polygon.png");
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                buttonRectangle.Image = Image.FromFile(path + "\\assets\\rectangle.png");
+            }
+
+            //add base figure
+            middleStart = new Point(HolstPanel.Width / 2 - 30, HolstPanel.Height / 2 - 30);
+            middleEnd = new Point(HolstPanel.Width / 2 + 30, HolstPanel.Height / 2 + 30);
+            Rectangle rectangle = new Rectangle(middleStart, middleEnd, penColor);
+            list.Add(rectangle);
+            HolstPanel.Refresh();
+        }
+
+        private void ButtonEllipse_MouseUp(object sender, MouseEventArgs e)
+        {
+            //change background
+            if (e.Button == MouseButtons.Left)
+            {
+                buttonSegment.Image = Image.FromFile(path + "\\assets\\segment.png");
+                buttonRectangle.Image = Image.FromFile(path + "\\assets\\rectangle.png");
+                buttonEllipse.Image = Image.FromFile(path + "\\assets\\ellipseActive.png");
+                buttonPolygon.Image = Image.FromFile(path + "\\assets\\polygon.png");
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                buttonEllipse.Image = Image.FromFile(path + "\\assets\\ellipse.png");
+            }
+
+            //add base figure
+            middleStart = new Point(HolstPanel.Width / 2 - 30, HolstPanel.Height / 2 - 30);
+            middleEnd = new Point(HolstPanel.Width / 2 + 30, HolstPanel.Height / 2 + 30);
+            Ellipse ellipse = new Ellipse(middleStart, middleEnd, penColor);
+            list.Add(ellipse);
+            HolstPanel.Refresh();
+        }
+
+        private void ButtonPolygon_MouseUp(object sender, MouseEventArgs e)
+        {
+            //change background
+            if (e.Button == MouseButtons.Left)
+            {
+                buttonSegment.Image = Image.FromFile(path + "\\assets\\segment.png");
+                buttonRectangle.Image = Image.FromFile(path + "\\assets\\rectangle.png");
+                buttonEllipse.Image = Image.FromFile(path + "\\assets\\ellipse.png");
+                buttonPolygon.Image = Image.FromFile(path + "\\assets\\polygonActive.png");
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                buttonPolygon.Image = Image.FromFile(path + "\\assets\\polygon.png");
+            }
+
+            //add base figure
+            //initialize start points
+            onePoint = new Point(HolstPanel.Width / 2, HolstPanel.Height / 2 + 30);
+            twoPoint = new Point(HolstPanel.Width / 2 + 26, HolstPanel.Height / 2 + 15);
+            threePoint = new Point(HolstPanel.Width / 2 + 26, HolstPanel.Height / 2 - 15);
+            fourPoint = new Point(HolstPanel.Width / 2, HolstPanel.Height / 2 - 30);
+            fivePoint = new Point(HolstPanel.Width / 2 - 26, HolstPanel.Height / 2 - 15);
+            sixPoint = new Point(HolstPanel.Width / 2 - 26, HolstPanel.Height / 2 + 15);
+
+            points = new List<Point>();
+            points.Add(onePoint);
+            points.Add(twoPoint);
+            points.Add(threePoint);
+            points.Add(fourPoint);
+            points.Add(fivePoint);
+            points.Add(sixPoint);
+
+            Polygon polygon = new Polygon(points, penColor);
+            list.Add(polygon);
+            HolstPanel.Refresh();
+        }
+
     }
 }

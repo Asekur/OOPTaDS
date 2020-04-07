@@ -4,27 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace DrawFigureOne
 {
     public abstract class Figure
     {
-        public Point start { get; set; }
-        public Figure (Point X)
-        {
-            this.start = X;
-        }
 
-        public float getX()
-        {
-            return start.valueX;
-        }
-
-        public float getY()
-        {
-            return start.valueY;
-        }
-
-        public abstract void Display(PaintEventArgs e);
+        public abstract void Display(Graphics e);
+        public abstract bool IsInFigure(System.Drawing.Rectangle cursor);
+        public abstract void RewriteFigure(int offsetX, int offsetY);
     }
 }

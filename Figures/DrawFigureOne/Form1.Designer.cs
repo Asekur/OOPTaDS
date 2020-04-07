@@ -30,51 +30,107 @@ namespace DrawFigureOne
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.ChangeButton = new System.Windows.Forms.Button();
-            this.HolstPanel = new System.Windows.Forms.Panel();
+            this.HolstPanel = new System.Windows.Forms.PictureBox();
+            this.buttonEllipse = new System.Windows.Forms.Button();
+            this.buttonRectangle = new System.Windows.Forms.Button();
+            this.buttonSegment = new System.Windows.Forms.Button();
+            this.buttonPolygon = new System.Windows.Forms.Button();
+            this.changePenColor = new System.Windows.Forms.Button();
+            this.colorDialog = new System.Windows.Forms.ColorDialog();
+            ((System.ComponentModel.ISupportInitialize)(this.HolstPanel)).BeginInit();
             this.SuspendLayout();
-            // 
-            // ChangeButton
-            // 
-            this.ChangeButton.BackColor = System.Drawing.Color.LightCyan;
-            this.ChangeButton.Font = new System.Drawing.Font("Georgia", 7.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ChangeButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.ChangeButton.Location = new System.Drawing.Point(390, 519);
-            this.ChangeButton.Name = "ChangeButton";
-            this.ChangeButton.Size = new System.Drawing.Size(164, 34);
-            this.ChangeButton.TabIndex = 1;
-            this.ChangeButton.Text = "Change figure";
-            this.ChangeButton.UseVisualStyleBackColor = false;
-            this.ChangeButton.Click += new System.EventHandler(this.Button1_Click);
             // 
             // HolstPanel
             // 
-            this.HolstPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.HolstPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.HolstPanel.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.HolstPanel.Location = new System.Drawing.Point(55, 10);
+            this.HolstPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.HolstPanel.Location = new System.Drawing.Point(55, 64);
             this.HolstPanel.Name = "HolstPanel";
-            this.HolstPanel.Size = new System.Drawing.Size(822, 502);
-            this.HolstPanel.TabIndex = 2;
+            this.HolstPanel.Size = new System.Drawing.Size(822, 496);
+            this.HolstPanel.TabIndex = 8;
+            this.HolstPanel.TabStop = false;
             this.HolstPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.HolstPanel_Paint);
+            this.HolstPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HolstPanel_MouseDown);
+            this.HolstPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HolstPanel_MouseMove);
+            this.HolstPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.HolstPanel_MouseUp);
+            // 
+            // buttonEllipse
+            // 
+            this.buttonEllipse.Image = ((System.Drawing.Image)(resources.GetObject("buttonEllipse.Image")));
+            this.buttonEllipse.Location = new System.Drawing.Point(771, 8);
+            this.buttonEllipse.Name = "buttonEllipse";
+            this.buttonEllipse.Size = new System.Drawing.Size(50, 50);
+            this.buttonEllipse.TabIndex = 9;
+            this.buttonEllipse.UseVisualStyleBackColor = true;
+            this.buttonEllipse.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ButtonEllipse_MouseUp);
+            // 
+            // buttonRectangle
+            // 
+            this.buttonRectangle.Image = ((System.Drawing.Image)(resources.GetObject("buttonRectangle.Image")));
+            this.buttonRectangle.Location = new System.Drawing.Point(715, 8);
+            this.buttonRectangle.Name = "buttonRectangle";
+            this.buttonRectangle.Size = new System.Drawing.Size(50, 50);
+            this.buttonRectangle.TabIndex = 10;
+            this.buttonRectangle.UseVisualStyleBackColor = true;
+            this.buttonRectangle.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ButtonRectangle_MouseUp);
+            // 
+            // buttonSegment
+            // 
+            this.buttonSegment.Image = ((System.Drawing.Image)(resources.GetObject("buttonSegment.Image")));
+            this.buttonSegment.Location = new System.Drawing.Point(659, 8);
+            this.buttonSegment.Name = "buttonSegment";
+            this.buttonSegment.Size = new System.Drawing.Size(50, 50);
+            this.buttonSegment.TabIndex = 11;
+            this.buttonSegment.UseVisualStyleBackColor = true;
+            this.buttonSegment.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ButtonSegment_MouseUp);
+            // 
+            // buttonPolygon
+            // 
+            this.buttonPolygon.Image = ((System.Drawing.Image)(resources.GetObject("buttonPolygon.Image")));
+            this.buttonPolygon.Location = new System.Drawing.Point(827, 8);
+            this.buttonPolygon.Name = "buttonPolygon";
+            this.buttonPolygon.Size = new System.Drawing.Size(50, 50);
+            this.buttonPolygon.TabIndex = 12;
+            this.buttonPolygon.UseVisualStyleBackColor = true;
+            this.buttonPolygon.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ButtonPolygon_MouseUp);
+            // 
+            // changePenColor
+            // 
+            this.changePenColor.Image = ((System.Drawing.Image)(resources.GetObject("changePenColor.Image")));
+            this.changePenColor.Location = new System.Drawing.Point(55, 8);
+            this.changePenColor.Name = "changePenColor";
+            this.changePenColor.Size = new System.Drawing.Size(50, 50);
+            this.changePenColor.TabIndex = 13;
+            this.changePenColor.UseVisualStyleBackColor = true;
+            this.changePenColor.Click += new System.EventHandler(this.ChangePenColor_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(936, 560);
+            this.ClientSize = new System.Drawing.Size(936, 583);
+            this.Controls.Add(this.changePenColor);
+            this.Controls.Add(this.buttonPolygon);
+            this.Controls.Add(this.buttonSegment);
+            this.Controls.Add(this.buttonRectangle);
+            this.Controls.Add(this.buttonEllipse);
             this.Controls.Add(this.HolstPanel);
-            this.Controls.Add(this.ChangeButton);
+            this.DoubleBuffered = true;
             this.Name = "Form1";
             this.Text = "Графический редактор";
+            ((System.ComponentModel.ISupportInitialize)(this.HolstPanel)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.Button ChangeButton;
-        private System.Windows.Forms.Panel HolstPanel;
+        private System.Windows.Forms.PictureBox HolstPanel;
+        private System.Windows.Forms.Button buttonEllipse;
+        private System.Windows.Forms.Button buttonRectangle;
+        private System.Windows.Forms.Button buttonSegment;
+        private System.Windows.Forms.Button buttonPolygon;
+        private System.Windows.Forms.Button changePenColor;
+        private System.Windows.Forms.ColorDialog colorDialog;
     }
 }
 

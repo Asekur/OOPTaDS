@@ -8,8 +8,8 @@ namespace DrawFigureOne
 {
     public class Point
     {
-        public float valueX { get; private set; }
-        public float valueY { get; private set; }
+        public float valueX { get; set; }
+        public float valueY { get; set; }
 
         //construct
         public Point(float x, float y)
