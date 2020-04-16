@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace DrawFigureOne
 {
@@ -16,7 +17,9 @@ namespace DrawFigureOne
         FigureList list = new FigureList();
         Color penColor = Color.FromName("Black");
         string path = Directory.GetCurrentDirectory();
+
         Figure checkFig = null;
+        private static Point checkPoint;
 
         //for translating figure
         private int xCursorStart = 0;
@@ -34,6 +37,7 @@ namespace DrawFigureOne
             InitializeComponent();
             bmp = new Bitmap(HolstPanel.Width, HolstPanel.Height);
             path = path.Substring(0, path.Length - 10);
+            checkPoint = new Point(-1, -1);
         }
 
 
@@ -64,20 +68,36 @@ namespace DrawFigureOne
         {
             if (checkFig == null)
             {
-                //change view of cursor
-                if (list.CheckCursor(e.Location) != null)
+                //change view of cursor for displacement
+                if (list.CheckCursorSizeAll(e.Location) != null)
                 {
                     HolstPanel.Cursor = System.Windows.Forms.Cursors.SizeAll;
                 }
                 else
                 {
-                    HolstPanel.Cursor = System.Windows.Forms.Cursors.Default;
+                    //change view of cursor for rotate
+                    if (list.CheckCursorHand(e.Location).Item1 != null)
+                    {
+                        HolstPanel.Cursor = System.Windows.Forms.Cursors.Hand;
+                    }
+                    else
+                    {
+                        HolstPanel.Cursor = System.Windows.Forms.Cursors.Default;
+                    }
                 }
             }
             else
             {
-                //transform figure
-                checkFig.RewriteFigure(e.X - xCursorStart, e.Y - yCursorStart);
+                if (HolstPanel.Cursor == System.Windows.Forms.Cursors.SizeAll)
+                {
+                    //transform figure
+                    checkFig.RewriteFigure(e.X - xCursorStart, e.Y - yCursorStart);
+                }
+                if (HolstPanel.Cursor == System.Windows.Forms.Cursors.Hand)
+                {
+                    //transform figure
+                    checkFig.Rotate(e.X - xCursorStart, e.Y - yCursorStart, checkPoint);
+                }
                 xCursorStart = e.X;
                 yCursorStart = e.Y;
             }
@@ -87,7 +107,17 @@ namespace DrawFigureOne
         {
             if (HolstPanel.Cursor == System.Windows.Forms.Cursors.SizeAll)
             {
-                checkFig = list.CheckCursor(e.Location);
+                checkFig = list.CheckCursorSizeAll(e.Location);
+                if (e.Button == MouseButtons.Left)
+                {
+                    xCursorStart = e.X;
+                    yCursorStart = e.Y;
+                }
+            }
+            if (HolstPanel.Cursor == System.Windows.Forms.Cursors.Hand)
+            {
+                checkFig = list.CheckCursorHand(e.Location).Item1;
+                checkPoint = list.CheckCursorHand(e.Location).Item2;
                 xCursorStart = e.X;
                 yCursorStart = e.Y;
             }
@@ -96,6 +126,38 @@ namespace DrawFigureOne
         private void HolstPanel_MouseUp(object sender, MouseEventArgs e)
         {
             checkFig = null;
+        }
+
+        private void ButtonSave_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = "c:\\";
+            saveFileDialog.DefaultExt = "lin";
+            
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                FileStream fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create);
+                BinaryFormatter bfser = new BinaryFormatter();
+                bfser.Serialize(fileStream, list);
+                fileStream.Close();
+            }
+        }
+
+        private void ButtonOpen_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Файлы .lin | *.lin";
+            openFileDialog.InitialDirectory = "c:\\";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (File.Exists(openFileDialog.FileName))
+                {
+                    FileStream fileStream = new FileStream(openFileDialog.FileName, FileMode.Open);
+                    BinaryFormatter bfser = new BinaryFormatter();
+                    list = (FigureList)bfser.Deserialize(fileStream);
+                }
+            }
         }
 
         private void DisplayBMP(Bitmap bmp, Figure fig)
@@ -219,6 +281,5 @@ namespace DrawFigureOne
             list.Add(polygon);
             HolstPanel.Refresh();
         }
-
     }
 }

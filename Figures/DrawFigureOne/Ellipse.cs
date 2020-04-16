@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 namespace DrawFigureOne
 {
+    [Serializable]
     class Ellipse : Figure
     {
         public Point leftPointEllipse { get; set; }
@@ -32,7 +33,7 @@ namespace DrawFigureOne
         public override bool IsInFigure(System.Drawing.Rectangle cursor)
         {
             if ((this.leftPointEllipse.valueX < cursor.X) && (this.leftPointEllipse.valueY < cursor.Y) &&
-                 (this.rightPointEllipse.valueX > cursor.Width) && (this.rightPointEllipse.valueY > cursor.Height))
+                 (this.rightPointEllipse.valueX > cursor.Right) && (this.rightPointEllipse.valueY > cursor.Bottom))
             {
                 return true;
             }
@@ -42,12 +43,47 @@ namespace DrawFigureOne
             }
         }
 
+        public override Tuple<bool, Point> IsNearFigure(System.Drawing.Rectangle cursor)
+        {
+            if ((cursor.Bottom < this.leftPointEllipse.valueY - 3 && cursor.Bottom > this.leftPointEllipse.valueY - 13) &&
+                    (cursor.X < this.leftPointEllipse.valueX + 3 && cursor.X > this.leftPointEllipse.valueX - 13))
+            {
+                return Tuple.Create(true, this.leftPointEllipse);
+            }
+            else
+            {
+                if ((cursor.Bottom < this.rightPointEllipse.valueY + 13 && cursor.Bottom > this.rightPointEllipse.valueY - 3) &&
+                    (cursor.X > this.rightPointEllipse.valueX + 3 && cursor.X < this.rightPointEllipse.valueX + 13))
+                {
+                    return Tuple.Create(true, this.rightPointEllipse);
+                }
+                else
+                {
+                    return Tuple.Create(false, this.leftPointEllipse);
+                }
+            }
+        }
+
         public override void RewriteFigure(int offsetX, int offsetY)
         {
             this.leftPointEllipse.valueX += offsetX;
             this.rightPointEllipse.valueX += offsetX;
             this.leftPointEllipse.valueY += offsetY;
             this.rightPointEllipse.valueY += offsetY;
+        }
+
+        public override void Rotate(int offsetX, int offsetY, Point checkPoint)
+        {
+            if (this.leftPointEllipse == checkPoint)
+            {
+                this.leftPointEllipse.valueX += offsetX;
+                this.leftPointEllipse.valueY += offsetY;
+            }
+            else if (this.rightPointEllipse == checkPoint)
+            {
+                this.rightPointEllipse.valueX += offsetX;
+                this.rightPointEllipse.valueY += offsetY;
+            }
         }
     }
 }

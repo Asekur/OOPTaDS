@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 namespace DrawFigureOne
 {
+    [Serializable]
     class Polygon : Figure
     {
         public List<Point> arr { get; set; }
@@ -17,7 +18,6 @@ namespace DrawFigureOne
         public Polygon(List<Point> arrOfPoints, Color pColor)
         {
             this.arr = arrOfPoints;
-            arr.Insert(arr.Count, arrOfPoints[0]);
             this.pColor = pColor;
         }
         public override void Display(Graphics gr)
@@ -67,7 +67,7 @@ namespace DrawFigureOne
             }
 
             if ((minX < cursor.X) && (minY < cursor.Y) &&
-                 (maxX > cursor.Width) && (maxY > cursor.Height))
+                 (maxX > cursor.Right) && (maxY > cursor.Bottom))
             {
                 return true;
             }
@@ -77,12 +77,41 @@ namespace DrawFigureOne
             }
         }
 
+        public override Tuple<bool, Point> IsNearFigure(System.Drawing.Rectangle cursor)
+        {
+            foreach (Point p in arr)
+            {
+                //if cursor near figure
+                if (((cursor.X > p.valueX - 10) && (cursor.X < p.valueX + 10) &&
+                    (cursor.Y > p.valueY - 10) && (cursor.Y < p.valueY + 10)) ||
+                   ((cursor.X > p.valueX - 10) && (cursor.X < p.valueX + 10) &&
+                    (cursor.Bottom > p.valueY - 10) && (cursor.Bottom < p.valueY + 10)))
+                {
+                    return Tuple.Create(true, p);
+                }
+            }
+            return Tuple.Create(false, this.arr[0]); ;
+        }
+
+
         public override void RewriteFigure(int offsetX, int offsetY)
         {
-            for (int i = 0; i < arr.Count - 1; i++)
+            foreach (Point p in arr)
             {
-                this.arr[i].valueX += offsetX;
-                this.arr[i].valueY += offsetY;
+                p.valueX += offsetX;
+                p.valueY += offsetY;
+            }
+        }
+
+        public override void Rotate(int offsetX, int offsetY, Point checkPoint)
+        {
+            foreach (Point p in arr)
+            {
+                if (p == checkPoint)
+                {
+                    p.valueX += offsetX;
+                    p.valueY += offsetY;
+                }
             }
         }
     }

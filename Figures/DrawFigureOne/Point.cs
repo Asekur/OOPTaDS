@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DrawFigureOne
 {
+    [Serializable]
     public class Point
     {
         public float valueX { get; set; }

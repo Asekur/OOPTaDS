@@ -37,6 +37,8 @@ namespace DrawFigureOne
             this.buttonPolygon = new System.Windows.Forms.Button();
             this.changePenColor = new System.Windows.Forms.Button();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
+            this.buttonOpen = new System.Windows.Forms.Button();
+            this.buttonSave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.HolstPanel)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,19 +98,41 @@ namespace DrawFigureOne
             // changePenColor
             // 
             this.changePenColor.Image = ((System.Drawing.Image)(resources.GetObject("changePenColor.Image")));
-            this.changePenColor.Location = new System.Drawing.Point(55, 8);
+            this.changePenColor.Location = new System.Drawing.Point(167, 8);
             this.changePenColor.Name = "changePenColor";
             this.changePenColor.Size = new System.Drawing.Size(50, 50);
             this.changePenColor.TabIndex = 13;
             this.changePenColor.UseVisualStyleBackColor = true;
             this.changePenColor.Click += new System.EventHandler(this.ChangePenColor_Click);
             // 
+            // buttonOpen
+            // 
+            this.buttonOpen.Image = ((System.Drawing.Image)(resources.GetObject("buttonOpen.Image")));
+            this.buttonOpen.Location = new System.Drawing.Point(55, 8);
+            this.buttonOpen.Name = "buttonOpen";
+            this.buttonOpen.Size = new System.Drawing.Size(50, 50);
+            this.buttonOpen.TabIndex = 14;
+            this.buttonOpen.UseVisualStyleBackColor = true;
+            this.buttonOpen.Click += new System.EventHandler(this.ButtonOpen_Click);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Image = ((System.Drawing.Image)(resources.GetObject("buttonSave.Image")));
+            this.buttonSave.Location = new System.Drawing.Point(111, 8);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(50, 50);
+            this.buttonSave.TabIndex = 15;
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(936, 583);
+            this.ClientSize = new System.Drawing.Size(936, 596);
+            this.Controls.Add(this.buttonSave);
+            this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.changePenColor);
             this.Controls.Add(this.buttonPolygon);
             this.Controls.Add(this.buttonSegment);
@@ -131,6 +155,8 @@ namespace DrawFigureOne
         private System.Windows.Forms.Button buttonPolygon;
         private System.Windows.Forms.Button changePenColor;
         private System.Windows.Forms.ColorDialog colorDialog;
+        private System.Windows.Forms.Button buttonOpen;
+        private System.Windows.Forms.Button buttonSave;
     }
 }
 
