@@ -16,18 +16,29 @@ namespace DrawFigureOne
         private Color pColor;
 
         //construct
-        public Ellipse(Point X, Point Y, Color pColor)
+        public Ellipse(List<Point> arrOfPoints, Color pColor)
         {
-            this.leftPointEllipse = X;
-            this.rightPointEllipse = Y;
+            this.leftPointEllipse = arrOfPoints[0];
+            this.rightPointEllipse = arrOfPoints[1];
             this.pColor = pColor;
         }
+
         public override void Display(Graphics gr)
         {
             Pen p = new Pen(this.pColor, 2);
             int width = Math.Abs((int)(rightPointEllipse.valueX - leftPointEllipse.valueX));
             int height = Math.Abs((int)(rightPointEllipse.valueY - leftPointEllipse.valueY));
             gr.DrawEllipse(p, (int)leftPointEllipse.valueX, (int)leftPointEllipse.valueY, width, height);
+        }
+
+        public override void Change(System.Drawing.Point location)
+        {
+            float substractionX = this.rightPointEllipse.valueX - this.leftPointEllipse.valueX;
+            float substractionY = this.rightPointEllipse.valueY - this.leftPointEllipse.valueY;
+            this.leftPointEllipse.valueX = location.X;
+            this.leftPointEllipse.valueY = location.Y;
+            this.rightPointEllipse.valueX = this.leftPointEllipse.valueX + substractionX;
+            this.rightPointEllipse.valueY = this.leftPointEllipse.valueY + substractionY;
         }
 
         public override bool IsInFigure(System.Drawing.Rectangle cursor)

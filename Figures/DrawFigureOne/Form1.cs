@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Reflection;
 
 namespace DrawFigureOne
 {
@@ -19,6 +15,8 @@ namespace DrawFigureOne
         string path = Directory.GetCurrentDirectory();
 
         Figure checkFig = null;
+        Figure drawFigure = null;
+        bool draw = false;
         private static Point checkPoint;
 
         //for translating figure
@@ -101,6 +99,11 @@ namespace DrawFigureOne
                 xCursorStart = e.X;
                 yCursorStart = e.Y;
             }
+
+            if (draw)
+            {
+                drawFigure.Change(e.Location);
+            }
         }
 
         private void HolstPanel_MouseDown(object sender, MouseEventArgs e)
@@ -160,6 +163,45 @@ namespace DrawFigureOne
             }
         }
 
+        private void HolstPanel_Click(object sender, EventArgs e)
+        {
+            if (draw)
+            {
+                list.Add(drawFigure);
+                draw = false;
+                drawFigure = null;
+                buttonSegment.Image = Image.FromFile(path + "\\assets\\segment.png");
+                buttonRectangle.Image = Image.FromFile(path + "\\assets\\rectangle.png");
+                buttonEllipse.Image = Image.FromFile(path + "\\assets\\ellipse.png");
+                buttonPolygon.Image = Image.FromFile(path + "\\assets\\polygon.png");
+                HolstPanel.Refresh();
+            }
+        }
+
+        private void LoadPlugins_Click(object sender, EventArgs e)
+        {
+            listPlugins.Items.Clear();
+            try
+            {
+                string[] pathFiles = Directory.GetFiles(path + "\\Plugins", "*.dll");
+                foreach (string file in pathFiles)
+                {
+                    //loading dll from "file"
+                    Assembly asm = Assembly.LoadFrom(file);
+                    listPlugins.Items.Add(file.Substring(file.LastIndexOf("\\") + 1, file.LastIndexOf(".") - file.LastIndexOf("\\") - 1));
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void DrawPlugins_MouseUp(object sender, MouseEventArgs e)
+        {
+            //drawing figure from dll
+        }
+
         private void DisplayBMP(Bitmap bmp, Figure fig)
         {
             Graphics graph = Graphics.FromImage(bmp);
@@ -194,9 +236,14 @@ namespace DrawFigureOne
             //add base figure
             middleStart = new Point(HolstPanel.Width / 2 - 30, HolstPanel.Height / 2 - 30);
             middleEnd = new Point(HolstPanel.Width / 2 + 30, HolstPanel.Height / 2 + 30);
-            Segment segment = new Segment(middleStart, middleEnd, penColor);
-            list.Add(segment);
-            HolstPanel.Refresh();
+
+            points = new List<Point>();
+            points.Add(middleStart);
+            points.Add(middleEnd);
+
+            draw = true;
+            Segment segment = new Segment(points, penColor);
+            drawFigure = segment;
         }
 
         private void ButtonRectangle_MouseUp(object sender, MouseEventArgs e)
@@ -217,9 +264,14 @@ namespace DrawFigureOne
             //add base figure
             middleStart = new Point(HolstPanel.Width / 2 - 30, HolstPanel.Height / 2 - 30);
             middleEnd = new Point(HolstPanel.Width / 2 + 30, HolstPanel.Height / 2 + 30);
-            Rectangle rectangle = new Rectangle(middleStart, middleEnd, penColor);
-            list.Add(rectangle);
-            HolstPanel.Refresh();
+
+            points = new List<Point>();
+            points.Add(middleStart);
+            points.Add(middleEnd);
+
+            draw = true;
+            Rectangle rectangle = new Rectangle(points, penColor);
+            drawFigure = rectangle;
         }
 
         private void ButtonEllipse_MouseUp(object sender, MouseEventArgs e)
@@ -240,9 +292,14 @@ namespace DrawFigureOne
             //add base figure
             middleStart = new Point(HolstPanel.Width / 2 - 30, HolstPanel.Height / 2 - 30);
             middleEnd = new Point(HolstPanel.Width / 2 + 30, HolstPanel.Height / 2 + 30);
-            Ellipse ellipse = new Ellipse(middleStart, middleEnd, penColor);
-            list.Add(ellipse);
-            HolstPanel.Refresh();
+
+            points = new List<Point>();
+            points.Add(middleStart);
+            points.Add(middleEnd);
+
+            draw = true;
+            Ellipse ellipse = new Ellipse(points, penColor);
+            drawFigure = ellipse;
         }
 
         private void ButtonPolygon_MouseUp(object sender, MouseEventArgs e)
@@ -277,9 +334,9 @@ namespace DrawFigureOne
             points.Add(fivePoint);
             points.Add(sixPoint);
 
+            draw = true;
             Polygon polygon = new Polygon(points, penColor);
-            list.Add(polygon);
-            HolstPanel.Refresh();
+            drawFigure = polygon;
         }
     }
 }

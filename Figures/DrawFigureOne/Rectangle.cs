@@ -17,15 +17,15 @@ namespace DrawFigureOne
         private Color pColor;
 
         //construct
-        public Rectangle(Point X, Point Y, Color pColor)
+        public Rectangle(List<Point> arrOfPoints, Color pColor)
         {
-            Point lrPoint = new Point(Y.valueX, X.valueY);
-            Point rlPoint = new Point(X.valueX, Y.valueY);
+            Point lrPoint = new Point(arrOfPoints[1].valueX, arrOfPoints[0].valueY);
+            Point rlPoint = new Point(arrOfPoints[0].valueX, arrOfPoints[1].valueY);
 
             arr = new List<Point>();
-            arr.Add(X);
+            arr.Add(arrOfPoints[0]);
             arr.Add(lrPoint);
-            arr.Add(Y);
+            arr.Add(arrOfPoints[1]);
             arr.Add(rlPoint);
             this.pColor = pColor;
         }
@@ -41,6 +41,24 @@ namespace DrawFigureOne
                 masF[i] = insertPoint;
             }
             gr.DrawPolygon(p, masF);
+        }
+
+        public override void Change(System.Drawing.Point location)
+        {
+            List<float> substractionX = new List<float>();
+            List<float> substractionY = new List<float>();
+            for (int i = 1; i < arr.Count; i++)
+            {
+                substractionX.Add(this.arr[0].valueX - this.arr[i].valueX);
+                substractionY.Add(this.arr[0].valueY - this.arr[i].valueY);
+            }
+            this.arr[0].valueX = location.X;
+            this.arr[0].valueY = location.Y;
+            for (int i = 1; i < arr.Count; i++)
+            {
+                arr[i].valueX = this.arr[0].valueX + substractionX[i - 1];
+                arr[i].valueY = this.arr[0].valueY + substractionY[i - 1];
+            }
         }
 
         public override bool IsInFigure(System.Drawing.Rectangle cursor)

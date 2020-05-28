@@ -17,16 +17,27 @@ namespace DrawFigureOne
 
 
         //construct
-        public Segment( Point X, Point Y, Color pColor)
+        public Segment(List<Point> arrOfPoints, Color pColor)
         {
-            this.startLine = X;
-            this.endLine = Y;
+            this.startLine = arrOfPoints[0];
+            this.endLine = arrOfPoints[1];
             this.pColor = pColor;
         }
+
         public override void Display(Graphics gr)
         {
             Pen p = new Pen(this.pColor, 2);
             gr.DrawLine(p, (int)startLine.valueX, (int)startLine.valueY, (int)endLine.valueX, (int)endLine.valueY);
+        }
+
+        public override void Change(System.Drawing.Point location)
+        {
+            float substractionX = this.endLine.valueX - this.startLine.valueX;
+            float substractionY = this.endLine.valueY - this.startLine.valueY;
+            this.startLine.valueX = location.X;
+            this.startLine.valueY = location.Y;
+            this.endLine.valueX = this.startLine.valueX + substractionX;
+            this.endLine.valueY = this.startLine.valueY + substractionY;
         }
 
         public override bool IsInFigure(System.Drawing.Rectangle cursor)

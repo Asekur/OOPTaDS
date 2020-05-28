@@ -39,6 +39,9 @@ namespace DrawFigureOne
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.listPlugins = new System.Windows.Forms.ComboBox();
+            this.loadPlugins = new System.Windows.Forms.Button();
+            this.drawPlugins = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.HolstPanel)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,6 +53,7 @@ namespace DrawFigureOne
             this.HolstPanel.Size = new System.Drawing.Size(822, 496);
             this.HolstPanel.TabIndex = 8;
             this.HolstPanel.TabStop = false;
+            this.HolstPanel.Click += new System.EventHandler(this.HolstPanel_Click);
             this.HolstPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.HolstPanel_Paint);
             this.HolstPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HolstPanel_MouseDown);
             this.HolstPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HolstPanel_MouseMove);
@@ -125,12 +129,45 @@ namespace DrawFigureOne
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
+            // listPlugins
+            // 
+            this.listPlugins.Font = new System.Drawing.Font("Segoe Print", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.listPlugins.FormattingEnabled = true;
+            this.listPlugins.Location = new System.Drawing.Point(167, 575);
+            this.listPlugins.Name = "listPlugins";
+            this.listPlugins.Size = new System.Drawing.Size(148, 34);
+            this.listPlugins.TabIndex = 16;
+            this.listPlugins.Text = "Plugins";
+            // 
+            // loadPlugins
+            // 
+            this.loadPlugins.Image = ((System.Drawing.Image)(resources.GetObject("loadPlugins.Image")));
+            this.loadPlugins.Location = new System.Drawing.Point(55, 575);
+            this.loadPlugins.Name = "loadPlugins";
+            this.loadPlugins.Size = new System.Drawing.Size(50, 50);
+            this.loadPlugins.TabIndex = 17;
+            this.loadPlugins.UseVisualStyleBackColor = true;
+            this.loadPlugins.Click += new System.EventHandler(this.LoadPlugins_Click);
+            // 
+            // drawPlugins
+            // 
+            this.drawPlugins.Image = ((System.Drawing.Image)(resources.GetObject("drawPlugins.Image")));
+            this.drawPlugins.Location = new System.Drawing.Point(111, 575);
+            this.drawPlugins.Name = "drawPlugins";
+            this.drawPlugins.Size = new System.Drawing.Size(50, 50);
+            this.drawPlugins.TabIndex = 18;
+            this.drawPlugins.UseVisualStyleBackColor = true;
+            this.drawPlugins.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DrawPlugins_MouseUp);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(936, 596);
+            this.ClientSize = new System.Drawing.Size(936, 644);
+            this.Controls.Add(this.drawPlugins);
+            this.Controls.Add(this.loadPlugins);
+            this.Controls.Add(this.listPlugins);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.changePenColor);
@@ -157,6 +194,9 @@ namespace DrawFigureOne
         private System.Windows.Forms.ColorDialog colorDialog;
         private System.Windows.Forms.Button buttonOpen;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.ComboBox listPlugins;
+        private System.Windows.Forms.Button loadPlugins;
+        private System.Windows.Forms.Button drawPlugins;
     }
 }
 

@@ -20,6 +20,7 @@ namespace DrawFigureOne
             this.arr = arrOfPoints;
             this.pColor = pColor;
         }
+
         public override void Display(Graphics gr)
         {
             Pen p = new Pen(this.pColor, 2);
@@ -32,6 +33,24 @@ namespace DrawFigureOne
                 masF[i] = insertPoint;
             }
             gr.DrawPolygon(p, masF);
+        }
+
+        public override void Change(System.Drawing.Point location)
+        {
+            List<float> substractionX = new List<float>();
+            List<float> substractionY = new List<float>();
+            for (int i = 0; i < arr.Count; i++)
+            {
+                substractionX.Add(this.arr[0].valueX - this.arr[i].valueX);
+                substractionY.Add(this.arr[0].valueY - this.arr[i].valueY);
+            }
+            this.arr[0].valueX = location.X;
+            this.arr[0].valueY = location.Y;
+            for (int i = 0; i < arr.Count; i++)
+            {
+                arr[i].valueX = this.arr[0].valueX + substractionX[i];
+                arr[i].valueY = this.arr[0].valueY + substractionY[i];
+            }
         }
 
         public override bool IsInFigure(System.Drawing.Rectangle cursor)
