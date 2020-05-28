@@ -5,6 +5,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Reflection;
+using System.Messaging;
+using System.Linq;
 
 namespace DrawFigureOne
 {
@@ -16,6 +18,7 @@ namespace DrawFigureOne
 
         Figure checkFig = null;
         Figure drawFigure = null;
+        List<Type> importedPlug = new List<Type>();
         bool draw = false;
         private static Point checkPoint;
 
@@ -58,7 +61,7 @@ namespace DrawFigureOne
             colorDialog.FullOpen = true;
             colorDialog.Color = penColor;
             if (colorDialog.ShowDialog() == DialogResult.OK)
-               penColor = colorDialog.Color;
+                penColor = colorDialog.Color;
             colorDialog.FullOpen = false;
         }
 
@@ -136,7 +139,7 @@ namespace DrawFigureOne
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = "c:\\";
             saveFileDialog.DefaultExt = "lin";
-            
+
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 FileStream fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create);
@@ -154,11 +157,18 @@ namespace DrawFigureOne
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (File.Exists(openFileDialog.FileName))
+                try
                 {
-                    FileStream fileStream = new FileStream(openFileDialog.FileName, FileMode.Open);
-                    BinaryFormatter bfser = new BinaryFormatter();
-                    list = (FigureList)bfser.Deserialize(fileStream);
+                    if (File.Exists(openFileDialog.FileName))
+                    {
+                        FileStream fileStream = new FileStream(openFileDialog.FileName, FileMode.Open);
+                        BinaryFormatter bfser = new BinaryFormatter();
+                        list = (FigureList)bfser.Deserialize(fileStream);
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Unable to open file");
                 }
             }
         }
@@ -181,25 +191,38 @@ namespace DrawFigureOne
         private void LoadPlugins_Click(object sender, EventArgs e)
         {
             listPlugins.Items.Clear();
-            try
+            string[] pathFiles = Directory.GetFiles(path + "\\Plugins", "*.dll");
+            foreach (string file in pathFiles)
             {
-                string[] pathFiles = Directory.GetFiles(path + "\\Plugins", "*.dll");
-                foreach (string file in pathFiles)
+                try
                 {
-                    //loading dll from "file"
                     Assembly asm = Assembly.LoadFrom(file);
-                    listPlugins.Items.Add(file.Substring(file.LastIndexOf("\\") + 1, file.LastIndexOf(".") - file.LastIndexOf("\\") - 1));
+                    foreach (Type type in asm.GetTypes())
+                    {
+                        importedPlug.Add(type);
+                        listPlugins.Items.Add(type.Name);
+                    }
+                } 
+                catch
+                {
                 }
-            }
-            catch
-            {
-
             }
         }
 
-        private void DrawPlugins_MouseUp(object sender, MouseEventArgs e)
+        private void drawPlugins_Click(object sender, EventArgs e)
         {
-            //drawing figure from dll
+            Graphics graph = Graphics.FromImage(bmp);
+            String currFigure = listPlugins.Text;
+            
+            importedPlug.ForEach(delegate (Type obj)
+            {
+                if (obj.Name == currFigure)
+                {
+                    Figure newInstance = Activator.CreateInstance(obj) as Figure;
+                    drawFigure = newInstance;
+                    draw = true;
+                }
+            });
         }
 
         private void DisplayBMP(Bitmap bmp, Figure fig)
@@ -210,7 +233,7 @@ namespace DrawFigureOne
             graph.Dispose();
         }
 
-        private void ReturnBMP (Bitmap bmp, FigureList list)
+        private void ReturnBMP(Bitmap bmp, FigureList list)
         {
             Graphics graph = Graphics.FromImage(bmp);
             graph.Clear(HolstPanel.BackColor);

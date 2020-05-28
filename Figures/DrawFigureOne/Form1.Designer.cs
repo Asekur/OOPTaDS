@@ -48,9 +48,10 @@ namespace DrawFigureOne
             // HolstPanel
             // 
             this.HolstPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.HolstPanel.Location = new System.Drawing.Point(55, 64);
+            this.HolstPanel.Location = new System.Drawing.Point(41, 52);
+            this.HolstPanel.Margin = new System.Windows.Forms.Padding(2);
             this.HolstPanel.Name = "HolstPanel";
-            this.HolstPanel.Size = new System.Drawing.Size(822, 496);
+            this.HolstPanel.Size = new System.Drawing.Size(617, 403);
             this.HolstPanel.TabIndex = 8;
             this.HolstPanel.TabStop = false;
             this.HolstPanel.Click += new System.EventHandler(this.HolstPanel_Click);
@@ -62,9 +63,10 @@ namespace DrawFigureOne
             // buttonEllipse
             // 
             this.buttonEllipse.Image = ((System.Drawing.Image)(resources.GetObject("buttonEllipse.Image")));
-            this.buttonEllipse.Location = new System.Drawing.Point(771, 8);
+            this.buttonEllipse.Location = new System.Drawing.Point(578, 6);
+            this.buttonEllipse.Margin = new System.Windows.Forms.Padding(2);
             this.buttonEllipse.Name = "buttonEllipse";
-            this.buttonEllipse.Size = new System.Drawing.Size(50, 50);
+            this.buttonEllipse.Size = new System.Drawing.Size(38, 41);
             this.buttonEllipse.TabIndex = 9;
             this.buttonEllipse.UseVisualStyleBackColor = true;
             this.buttonEllipse.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ButtonEllipse_MouseUp);
@@ -72,9 +74,10 @@ namespace DrawFigureOne
             // buttonRectangle
             // 
             this.buttonRectangle.Image = ((System.Drawing.Image)(resources.GetObject("buttonRectangle.Image")));
-            this.buttonRectangle.Location = new System.Drawing.Point(715, 8);
+            this.buttonRectangle.Location = new System.Drawing.Point(536, 6);
+            this.buttonRectangle.Margin = new System.Windows.Forms.Padding(2);
             this.buttonRectangle.Name = "buttonRectangle";
-            this.buttonRectangle.Size = new System.Drawing.Size(50, 50);
+            this.buttonRectangle.Size = new System.Drawing.Size(38, 41);
             this.buttonRectangle.TabIndex = 10;
             this.buttonRectangle.UseVisualStyleBackColor = true;
             this.buttonRectangle.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ButtonRectangle_MouseUp);
@@ -82,9 +85,10 @@ namespace DrawFigureOne
             // buttonSegment
             // 
             this.buttonSegment.Image = ((System.Drawing.Image)(resources.GetObject("buttonSegment.Image")));
-            this.buttonSegment.Location = new System.Drawing.Point(659, 8);
+            this.buttonSegment.Location = new System.Drawing.Point(494, 6);
+            this.buttonSegment.Margin = new System.Windows.Forms.Padding(2);
             this.buttonSegment.Name = "buttonSegment";
-            this.buttonSegment.Size = new System.Drawing.Size(50, 50);
+            this.buttonSegment.Size = new System.Drawing.Size(38, 41);
             this.buttonSegment.TabIndex = 11;
             this.buttonSegment.UseVisualStyleBackColor = true;
             this.buttonSegment.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ButtonSegment_MouseUp);
@@ -92,9 +96,10 @@ namespace DrawFigureOne
             // buttonPolygon
             // 
             this.buttonPolygon.Image = ((System.Drawing.Image)(resources.GetObject("buttonPolygon.Image")));
-            this.buttonPolygon.Location = new System.Drawing.Point(827, 8);
+            this.buttonPolygon.Location = new System.Drawing.Point(620, 6);
+            this.buttonPolygon.Margin = new System.Windows.Forms.Padding(2);
             this.buttonPolygon.Name = "buttonPolygon";
-            this.buttonPolygon.Size = new System.Drawing.Size(50, 50);
+            this.buttonPolygon.Size = new System.Drawing.Size(38, 41);
             this.buttonPolygon.TabIndex = 12;
             this.buttonPolygon.UseVisualStyleBackColor = true;
             this.buttonPolygon.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ButtonPolygon_MouseUp);
@@ -102,9 +107,10 @@ namespace DrawFigureOne
             // changePenColor
             // 
             this.changePenColor.Image = ((System.Drawing.Image)(resources.GetObject("changePenColor.Image")));
-            this.changePenColor.Location = new System.Drawing.Point(167, 8);
+            this.changePenColor.Location = new System.Drawing.Point(125, 6);
+            this.changePenColor.Margin = new System.Windows.Forms.Padding(2);
             this.changePenColor.Name = "changePenColor";
-            this.changePenColor.Size = new System.Drawing.Size(50, 50);
+            this.changePenColor.Size = new System.Drawing.Size(38, 41);
             this.changePenColor.TabIndex = 13;
             this.changePenColor.UseVisualStyleBackColor = true;
             this.changePenColor.Click += new System.EventHandler(this.ChangePenColor_Click);
@@ -112,9 +118,10 @@ namespace DrawFigureOne
             // buttonOpen
             // 
             this.buttonOpen.Image = ((System.Drawing.Image)(resources.GetObject("buttonOpen.Image")));
-            this.buttonOpen.Location = new System.Drawing.Point(55, 8);
+            this.buttonOpen.Location = new System.Drawing.Point(41, 6);
+            this.buttonOpen.Margin = new System.Windows.Forms.Padding(2);
             this.buttonOpen.Name = "buttonOpen";
-            this.buttonOpen.Size = new System.Drawing.Size(50, 50);
+            this.buttonOpen.Size = new System.Drawing.Size(38, 41);
             this.buttonOpen.TabIndex = 14;
             this.buttonOpen.UseVisualStyleBackColor = true;
             this.buttonOpen.Click += new System.EventHandler(this.ButtonOpen_Click);
@@ -122,29 +129,32 @@ namespace DrawFigureOne
             // buttonSave
             // 
             this.buttonSave.Image = ((System.Drawing.Image)(resources.GetObject("buttonSave.Image")));
-            this.buttonSave.Location = new System.Drawing.Point(111, 8);
+            this.buttonSave.Location = new System.Drawing.Point(83, 6);
+            this.buttonSave.Margin = new System.Windows.Forms.Padding(2);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(50, 50);
+            this.buttonSave.Size = new System.Drawing.Size(38, 41);
             this.buttonSave.TabIndex = 15;
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
             // listPlugins
             // 
+            this.listPlugins.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.listPlugins.Font = new System.Drawing.Font("Segoe Print", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listPlugins.FormattingEnabled = true;
-            this.listPlugins.Location = new System.Drawing.Point(167, 575);
+            this.listPlugins.Location = new System.Drawing.Point(125, 467);
+            this.listPlugins.Margin = new System.Windows.Forms.Padding(2);
             this.listPlugins.Name = "listPlugins";
-            this.listPlugins.Size = new System.Drawing.Size(148, 34);
+            this.listPlugins.Size = new System.Drawing.Size(112, 29);
             this.listPlugins.TabIndex = 16;
-            this.listPlugins.Text = "Plugins";
             // 
             // loadPlugins
             // 
             this.loadPlugins.Image = ((System.Drawing.Image)(resources.GetObject("loadPlugins.Image")));
-            this.loadPlugins.Location = new System.Drawing.Point(55, 575);
+            this.loadPlugins.Location = new System.Drawing.Point(41, 467);
+            this.loadPlugins.Margin = new System.Windows.Forms.Padding(2);
             this.loadPlugins.Name = "loadPlugins";
-            this.loadPlugins.Size = new System.Drawing.Size(50, 50);
+            this.loadPlugins.Size = new System.Drawing.Size(38, 41);
             this.loadPlugins.TabIndex = 17;
             this.loadPlugins.UseVisualStyleBackColor = true;
             this.loadPlugins.Click += new System.EventHandler(this.LoadPlugins_Click);
@@ -152,19 +162,20 @@ namespace DrawFigureOne
             // drawPlugins
             // 
             this.drawPlugins.Image = ((System.Drawing.Image)(resources.GetObject("drawPlugins.Image")));
-            this.drawPlugins.Location = new System.Drawing.Point(111, 575);
+            this.drawPlugins.Location = new System.Drawing.Point(83, 467);
+            this.drawPlugins.Margin = new System.Windows.Forms.Padding(2);
             this.drawPlugins.Name = "drawPlugins";
-            this.drawPlugins.Size = new System.Drawing.Size(50, 50);
+            this.drawPlugins.Size = new System.Drawing.Size(38, 41);
             this.drawPlugins.TabIndex = 18;
             this.drawPlugins.UseVisualStyleBackColor = true;
-            this.drawPlugins.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DrawPlugins_MouseUp);
+            this.drawPlugins.Click += new System.EventHandler(this.drawPlugins_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(936, 644);
+            this.ClientSize = new System.Drawing.Size(702, 523);
             this.Controls.Add(this.drawPlugins);
             this.Controls.Add(this.loadPlugins);
             this.Controls.Add(this.listPlugins);
@@ -177,6 +188,7 @@ namespace DrawFigureOne
             this.Controls.Add(this.buttonEllipse);
             this.Controls.Add(this.HolstPanel);
             this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Графический редактор";
             ((System.ComponentModel.ISupportInitialize)(this.HolstPanel)).EndInit();

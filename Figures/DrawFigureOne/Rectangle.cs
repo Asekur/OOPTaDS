@@ -30,6 +30,18 @@ namespace DrawFigureOne
             this.pColor = pColor;
         }
 
+        public Rectangle()
+        {
+            // 600, 400
+            arr = new List<Point>();
+            arr.Add(new Point(60, 0));
+            arr.Add(new Point(60, 60));
+            arr.Add(new Point(120, 0));
+            arr.Add(new Point(120, 60));  
+            this.pColor = Color.Red;
+
+        }
+
         public override void Display(Graphics gr)
         {
             Pen p = new Pen(this.pColor, 2);
