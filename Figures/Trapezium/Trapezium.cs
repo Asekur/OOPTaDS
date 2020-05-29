@@ -41,20 +41,20 @@ namespace DrawFigureOne
 
         public override void Change(System.Drawing.Point location)
         {
-            /*List<float> substractionX = new List<float>();
+            List<float> substractionX = new List<float>();
             List<float> substractionY = new List<float>();
-            for (int i = 1; i < arr.Count; i++)
+            for (int i = 0; i < this.arr.Count; i++)
             {
                 substractionX.Add(this.arr[0].valueX - this.arr[i].valueX);
                 substractionY.Add(this.arr[0].valueY - this.arr[i].valueY);
             }
             this.arr[0].valueX = location.X;
             this.arr[0].valueY = location.Y;
-            for (int i = 1; i < arr.Count; i++)
+            for (int i = 0; i < this.arr.Count; i++)
             {
-                arr[i].valueX = this.arr[0].valueX + substractionX[i - 1];
-                arr[i].valueY = this.arr[0].valueY + substractionY[i - 1];
-            }*/
+                this.arr[i].valueX = this.arr[0].valueX - substractionX[i];
+                this.arr[i].valueY = this.arr[0].valueY - substractionY[i];
+            }
         }
 
         public override bool IsInFigure(System.Drawing.Rectangle cursor)
